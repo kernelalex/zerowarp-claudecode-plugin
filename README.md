@@ -39,7 +39,9 @@ After installing, restart Claude Code or run `/reload-plugins` for the plugin to
 
 - ZeroWarp terminal
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI
+- Bash-compatible hook execution
 - `jq` for JSON parsing
+- A POSIX-style terminal device at `/dev/tty` for local OSC delivery. On Windows, use WSL or another environment that exposes `/dev/tty`; native PowerShell/CMD delivery is not implemented in this release.
 
 ## How It Works
 
