@@ -1,5 +1,5 @@
 #!/bin/bash
-# Warp notification utility using OSC escape sequences
+# ZeroWarp notification utility using OSC escape sequences
 # Usage: warp-notify.sh <title> <body>
 
 TITLE="${1:-Notification}"

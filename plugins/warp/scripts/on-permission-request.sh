@@ -1,6 +1,6 @@
 #!/bin/bash
 # Hook script for Claude Code PermissionRequest event
-# Sends a structured Warp notification when Claude needs permission to run a tool
+# Sends a structured ZeroWarp notification when Claude needs permission to run a tool
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/should-use-structured.sh"

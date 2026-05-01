@@ -1,18 +1,18 @@
 {
-  "name": "claude-code-warp",
-  "description": "Official Warp terminal integrations for Claude Code",
+  "name": "zerowarp-claudecode-plugin",
+  "description": "Local-only ZeroWarp terminal integrations for Claude Code",
   "owner": {
-    "name": "Warp",
-    "url": "https://warp.dev"
+    "name": "Enigma Labs",
+    "url": "https://github.com/kernelalex/zerowarp-claudecode-plugin"
   },
   "plugins": [
     {
-      "name": "warp",
-      "description": "Native Warp notifications when Claude completes tasks or needs input",
+      "name": "zerowarp",
+      "description": "Native ZeroWarp notifications when Claude completes tasks or needs input",
       "source": "./plugins/warp",
       "version": "2.0.0",
       "category": "productivity",
-      "tags": ["notifications", "terminal", "warp"]
+      "tags": ["notifications", "terminal", "zerowarp"]
     }
   ]
 }

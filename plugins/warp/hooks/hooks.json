@@ -1,5 +1,5 @@
 {
-  "description": "Warp terminal notifications",
+  "description": "ZeroWarp terminal notifications",
   "hooks": {
     "SessionStart": [
       {

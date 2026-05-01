@@ -1,11 +1,11 @@
 #!/bin/bash
 # Hook script for Claude Code Stop event
-# Sends a structured Warp notification when Claude completes a task
+# Sends a structured ZeroWarp notification when Claude completes a task
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/should-use-structured.sh"
 
-# Legacy fallback for old Warp versions
+# Legacy fallback for old inherited Warp protocol versions
 if ! should_use_structured; then
     [ "$TERM_PROGRAM" = "WarpTerminal" ] && exec "$SCRIPT_DIR/legacy/on-stop.sh"
     exit 0

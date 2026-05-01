@@ -1,11 +1,11 @@
 #!/bin/bash
 # Hook script for Claude Code Notification event (idle_prompt only)
-# Sends a structured Warp notification when Claude has been idle
+# Sends a structured ZeroWarp notification when Claude has been idle
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/should-use-structured.sh"
 
-# Legacy fallback for old Warp versions
+# Legacy fallback for old inherited Warp protocol versions
 if ! should_use_structured; then
     [ "$TERM_PROGRAM" = "WarpTerminal" ] && exec "$SCRIPT_DIR/legacy/on-notification.sh"
     exit 0

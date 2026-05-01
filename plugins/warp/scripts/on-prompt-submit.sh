@@ -1,6 +1,6 @@
 #!/bin/bash
 # Hook script for Claude Code UserPromptSubmit event
-# Sends a structured Warp notification when the user submits a prompt,
+# Sends a structured ZeroWarp notification when the user submits a prompt,
 # transitioning the session status from idle/blocked back to running.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

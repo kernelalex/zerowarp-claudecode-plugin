@@ -1,6 +1,6 @@
 #!/bin/bash
 # Hook script for Claude Code Stop event
-# Sends a Warp notification when Claude completes a task
+# Sends a ZeroWarp notification when Claude completes a task
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 

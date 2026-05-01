@@ -1,13 +1,13 @@
 #!/bin/bash
 # Hook script for Claude Code SessionStart event
-# Shows welcome message and Warp detection status
+# Shows welcome message and ZeroWarp detection status
 
-# Check if running in Warp terminal
+# Check if running in a compatible terminal
 if [ "$TERM_PROGRAM" = "WarpTerminal" ]; then
-    # Running in Warp - notifications will work
+    # Running in a compatible terminal - notifications will work
     cat << 'EOF'
 {
-  "systemMessage": "🔔 Warp plugin active. You'll receive native Warp notifications when tasks complete or input is needed."
+  "systemMessage": "ZeroWarp plugin active. You'll receive native ZeroWarp notifications when tasks complete or input is needed."
 }
 EOF
 else

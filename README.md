@@ -1,81 +1,75 @@
-# Claude Code + Warp
+# Claude Code + ZeroWarp
 
-Official [Warp](https://warp.dev) terminal integration for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+Local-only ZeroWarp notification plugin for [Claude Code](https://docs.anthropic.com/en/docs/claude-code), maintained by Enigma Labs.
+
+This fork preserves the useful terminal integration from the upstream Warp plugin while removing Warp-owned distribution identity. It emits local OSC 777 escape sequences for ZeroWarp to parse; it does not include telemetry, analytics SDKs, or Warp cloud service calls.
 
 ## Features
 
-### 🔔 Native Notifications
+### Native Notifications
 
-Get native Warp notifications when Claude Code:
-- **Completes a task** — with a summary showing your prompt and Claude's response
-- **Needs your input** — when Claude has been idle and is waiting for you
-- **Requests permission** — when Claude wants to run a tool and needs your approval
+Get native ZeroWarp notifications when Claude Code:
+- Completes a task, with a concise prompt/response summary
+- Needs your input after becoming idle
+- Requests permission to run a tool
 
-Notifications appear in Warp's notification center and as system notifications, so you can context-switch while Claude works and get alerted when attention is needed.
+### Session Status
 
-### 📡 Session Status
+The plugin keeps ZeroWarp informed of Claude's local session state by emitting structured events:
+- `prompt_submit` when you send a prompt
+- `tool_complete` when a tool call finishes
+- `permission_request` when Claude needs approval
+- `stop` when Claude completes a turn
 
-The plugin keeps Warp informed of Claude's current state by emitting structured events on every session transition:
-- **Prompt submitted** — you sent a prompt, Claude is working
-- **Tool completed** — a tool call finished, Claude is back to running
-
-This powers Warp's inline status indicators for Claude Code sessions.
+These events stay in the local terminal session and are not sent to Warp cloud services.
 
 ## Installation
 
 ```bash
-# In Claude Code, add the marketplace
-/plugin marketplace add warpdotdev/claude-code-warp
+# In Claude Code, add the ZeroWarp marketplace
+/plugin marketplace add kernelalex/zerowarp-claudecode-plugin
 
-# Install the Warp plugin
-/plugin install warp@claude-code-warp
+# Install the ZeroWarp plugin
+/plugin install zerowarp@zerowarp-claudecode-plugin
 ```
 
-> ⚠️ **Important**: After installing, **restart Claude Code or run /reload-plugins** for the plugin to activate.
-
-Once restarted, you'll see a confirmation message and notifications will appear automatically.
+After installing, restart Claude Code or run `/reload-plugins` for the plugin to activate.
 
 ## Requirements
 
-- [Warp terminal](https://warp.dev) (macOS, Linux, or Windows)
+- ZeroWarp terminal
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI
-- `jq` for JSON parsing (install via `brew install jq` or your package manager)
+- `jq` for JSON parsing
 
 ## How It Works
 
-The plugin communicates with Warp via OSC 777 escape sequences. Each hook script builds a structured JSON payload (via `build-payload.sh`) and sends it to `warp://cli-agent`, where Warp parses it to drive notifications and session UI.
+Each hook script builds a structured JSON payload with `build-payload.sh` and writes an OSC 777 escape sequence to `/dev/tty`. ZeroWarp consumes that local terminal event to drive notifications and session UI.
 
-Payloads include a protocol version negotiated between the plugin and Warp (`min(plugin_version, warp_version)`), the session ID, working directory, and event-specific fields.
+Payloads include a negotiated protocol version, session ID, working directory, and event-specific fields. The protocol string remains `warp://cli-agent` for compatibility with the current ZeroWarp client.
 
 The plugin registers six hooks:
-- **SessionStart** — emits the plugin version and a welcome system message
-- **Stop** — reads the transcript to extract your prompt and Claude's response, then sends a task-complete notification
-- **Notification** (`idle_prompt`) — fires when Claude has been idle and needs your input
-- **PermissionRequest** — fires when Claude wants to run a tool, includes the tool name and a preview of its input
-- **UserPromptSubmit** — fires when you submit a prompt, signaling the session is active again
-- **PostToolUse** — fires when a tool call completes, signaling the session is no longer blocked
-
-### Legacy Support
-
-Older Warp clients that predate the structured notification protocol are still supported — they receive plain-text notifications for SessionStart, Stop, and Notification hooks.
-
-
-## Configuration
-
-Notifications work out of the box. To customize Warp's notification behavior (sounds, system notifications, etc.), see [Warp's notification settings](https://docs.warp.dev/features/notifications).
+- `SessionStart` emits the plugin version and a startup message.
+- `Stop` reads the transcript to extract prompt/response context.
+- `Notification` handles idle prompts.
+- `PermissionRequest` includes tool name and a preview of requested input.
+- `UserPromptSubmit` signals that a submitted prompt is running.
+- `PostToolUse` signals that a tool call completed.
 
 ## Uninstall
 
 ```bash
-/plugin uninstall warp@claude-code-warp
-/plugin marketplace remove claude-code-warp
+/plugin uninstall zerowarp@zerowarp-claudecode-plugin
+/plugin marketplace remove zerowarp-claudecode-plugin
 ```
 
 ## Versioning
 
-The plugin version in `plugins/warp/.claude-plugin/plugin.json` is checked by the Warp client to detect outdated installations.
-When bumping the version here, also update `MINIMUM_PLUGIN_VERSION` in the Warp client.
+The plugin version in `plugins/warp/.claude-plugin/plugin.json` is checked by the ZeroWarp client to detect outdated installations. When bumping this version, also update the matching minimum plugin version in ZeroWarp.
+
+## Attribution
+
+This project is a privacy-focused fork of the Warp Claude Code notification plugin. ZeroWarp-specific changes are maintained by Enigma Labs.
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
+MIT License. See [LICENSE](LICENSE) for details.
